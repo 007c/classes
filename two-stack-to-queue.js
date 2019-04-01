@@ -13,7 +13,7 @@ class Queue {
             while(this.stack1.length){
                 this.stack2.push(this.stack1.pop());
             }
-        }1
+        }
 
         return this.stack2.pop();
     }
