@@ -19,7 +19,8 @@ const createDebounce = function (fn, tick, delay) {
 
 const debounce = createDebounce(function () {
     console.log('debounce Fn')
-}, 2000, 1000);
+    console.log(new Date())
+}, 2000, 2000);
 
 debounce()
 debounce()
@@ -30,4 +31,4 @@ debounce()
 debounce()
 debounce()
 
-setTimeout(debounce, 2000);
+setTimeout(debounce, 3000);
