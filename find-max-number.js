@@ -6,7 +6,7 @@ function sort(a, b){
     var numberA = a * Math.pow(10, lenB) + b;
     var numberB = b * Math.pow(10, lenA) + a;
 
-    return numberB - numberA;
+    return numberA - numberB;
 }
 
 function findMaxNumber(nums){
@@ -14,4 +14,4 @@ function findMaxNumber(nums){
     return nums.join('');
 }
 
-console.log(findMaxNumber([12, 3, 4, 5, 6, 0, 7, 19231, 45]));
+console.log(findMaxNumber([3,2,1,4,5]));

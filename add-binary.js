@@ -1,10 +1,10 @@
 var addBinary = function (a, b) {
     var maxLen = Math.max(a.length, b.length);
-    for(var i = 0; i < maxLen; i++){
-        if(!a[i]){
+    for (var i = 0; i < maxLen; i++) {
+        if (!a[i]) {
             a = '0' + a;
         }
-        if(!b[i]){
+        if (!b[i]) {
             b = '0' + b;
         }
     }
@@ -16,7 +16,7 @@ var addBinary = function (a, b) {
         retArr.unshift(numA + numB);
     }
 
-    if(retArr[0] === 2){
+    if (retArr[0] === 2) {
         retArr[0] -= 2;
         retArr.unshift(1);
     }
@@ -26,7 +26,7 @@ var addBinary = function (a, b) {
             retArr[i] -= 2;
             if (retArr[0] === 0) {
                 retArr.unshift(1);
-            } else{
+            } else {
                 retArr[i - 1] += 1;
             }
         }
