@@ -24,6 +24,9 @@ var LinkList = /** @class */ (function () {
         }
         this.count++;
     };
+    LinkList.prototype.isEmpty = function () {
+        return this.count === 0;
+    };
     LinkList.prototype.insertBefore = function (node, pos) {
         if (pos < 0) {
             return;
@@ -107,18 +110,30 @@ var LinkList = /** @class */ (function () {
     LinkList.prototype.size = function () {
         return this.count;
     };
+    LinkList.prototype.indexOf = function (nodeVal) {
+        var current = this.head;
+        var index = 0;
+        while (current) {
+            if (current.val === nodeVal) {
+                return index;
+            }
+            index++;
+            current = current.next;
+        }
+        return -1;
+    };
     return LinkList;
 }());
 exports.LinkList = LinkList;
-var linkList = new LinkList();
-linkList.append(new ListNode(1));
-linkList.append(new ListNode(2));
-linkList.append(new ListNode(3));
-var node = new ListNode(222);
-linkList.insertBefore(node, 0);
-console.log(linkList);
-linkList.removeAt(0);
-console.log(linkList);
-console.log(linkList.getElementAt(2));
-console.log('remove', linkList.remove(node));
-console.log(linkList.getElementAt(2), linkList.size(), linkList);
+// const linkList = new LinkList();
+// linkList.append(new ListNode(1));
+// linkList.append(new ListNode(2));
+// linkList.append(new ListNode(3));
+// const node = new ListNode(222);
+// linkList.insertBefore(node, 0);
+// console.log(linkList)
+// linkList.removeAt(0);
+// console.log(linkList)
+// console.log(linkList.getElementAt(2))
+// console.log('remove', linkList.remove(node))
+// console.log(linkList.getElementAt(2), linkList.size(), linkList)

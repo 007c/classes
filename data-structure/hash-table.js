@@ -17,8 +17,8 @@ var link_list_1 = require("./link-list");
 var NodeItem = /** @class */ (function (_super) {
     __extends(NodeItem, _super);
     function NodeItem(key, val) {
-        var _this = _super.call(this, val) || this;
-        _this.key = key;
+        var _this = _super.call(this, key) || this;
+        _this.value = val;
         return _this;
     }
     return NodeItem;
@@ -47,6 +47,22 @@ var HashTable = /** @class */ (function () {
         var hashCode = this.hashCode(key);
         delete this.items[hashCode];
     };
+    HashTable.prototype.entries = function () {
+        var keys = Object.keys(this.items);
+        var entries = "";
+        for (var _i = 0, keys_1 = keys; _i < keys_1.length; _i++) {
+            var item = keys_1[_i];
+            entries += item + ': [';
+            var head = this.items[item].head;
+            while (head) {
+                entries += head.val + '=>' + head.value + ',';
+                head = head.next;
+            }
+            entries = entries.slice(0, -1);
+            entries += '],';
+        }
+        return entries.slice(0, -1);
+    };
     return HashTable;
 }());
 var HashTableSpreadChain = /** @class */ (function (_super) {
@@ -59,20 +75,16 @@ var HashTableSpreadChain = /** @class */ (function (_super) {
         if (!this.items[hashCode]) {
             this.items[hashCode] = new link_list_1.LinkList();
         }
-        var current = this.items[hashCode].head;
+        var linkList = this.items[hashCode];
+        var current = linkList.head;
         var node = new NodeItem(key, value);
-        if (!current) {
-            this.items[hashCode].head = node;
+        var nodeIndex = linkList.indexOf(key);
+        if (nodeIndex === -1) {
+            linkList.append(node);
         }
         else {
-            while (current.next) {
-                if (current.key === key) {
-                    current.val = value;
-                    return;
-                }
-                current = current.next;
-            }
-            current.next = node;
+            var node_1 = linkList.getElementAt(nodeIndex);
+            node_1.value = value;
         }
     };
     HashTableSpreadChain.prototype.get = function (key) {
@@ -82,8 +94,8 @@ var HashTableSpreadChain = /** @class */ (function (_super) {
         }
         var head = this.items[hashCode].head;
         while (head) {
-            if (head.key === key) {
-                return head.val;
+            if (head.val === key) {
+                return head.value;
             }
             head = head.next;
         }
@@ -94,20 +106,14 @@ var HashTableSpreadChain = /** @class */ (function (_super) {
         if (!this.items[hashCode]) {
             return;
         }
-        var head = this.items[hashCode].head;
-        var prev = null;
-        while (head) {
-            if (head.key === key) {
-                if (!prev) {
-                    this.items[hashCode].head = head.next;
-                }
-                else {
-                    prev.next = head.next;
-                }
-                return;
-            }
-            prev = head;
-            head = head.next;
+        var linkList = this.items[hashCode];
+        var nodeIndex = linkList.indexOf(key);
+        if (nodeIndex === -1) {
+            return;
+        }
+        linkList.removeAt(nodeIndex);
+        if (linkList.isEmpty()) {
+            delete this.items[hashCode];
         }
     };
     return HashTableSpreadChain;
@@ -118,10 +124,18 @@ hashTable.put('lihongwang', 45);
 hashTable.put('yihuli', 36);
 hashTable.put('Sue', 38);
 hashTable.put('Aethelwulf', 98);
+hashTable.put('master', 25);
+hashTable.put('master', 28);
+console.log(hashTable.entries());
 console.log(hashTable.get('zzp'));
 console.log(hashTable.get('yihuli'));
 console.log(hashTable.get('wangmuba'));
 console.log(hashTable.get('Sue'));
 console.log(hashTable.get('Aethelwulf'));
+console.log(hashTable.get('master'));
 hashTable.remove('Aethelwulf');
+hashTable.remove('master');
+hashTable.remove('Sue');
 console.log(hashTable.get('Aethelwulf'));
+console.log(hashTable.get('master'));
+console.log(hashTable.entries());
