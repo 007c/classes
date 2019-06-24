@@ -17,13 +17,19 @@ var Stack = /** @class */ (function () {
     Stack.prototype.clear = function () {
         this.items.length = 0;
     };
+    Stack.prototype.size = function () {
+        return this.items.length;
+    };
     return Stack;
 }());
 var stack = new Stack();
+console.log(stack.isEmpty());
 stack.push(1);
+console.log(stack.isEmpty());
 stack.push(2);
 stack.push(4);
 console.log(stack.pop());
 console.log(stack.pop());
+console.log(stack.peek());
 stack.push(47);
 console.log(stack.pop());
