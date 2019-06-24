@@ -33,3 +33,17 @@ console.log(stack.pop());
 console.log(stack.peek());
 stack.push(47);
 console.log(stack.pop());
+var decimalToBinary = function (decimal) {
+    var stack = new Stack();
+    while (decimal > 0) {
+        var rem = decimal % 2;
+        stack.push(rem);
+        decimal = Math.floor(decimal / 2);
+    }
+    var binary = "";
+    while (!stack.isEmpty()) {
+        binary += stack.pop();
+    }
+    return binary;
+};
+console.log(decimalToBinary(12));
