@@ -19,7 +19,7 @@ function mergeSort(arr, start, end){
 function merge(arr, start, middle, end){
     let leftArr = [];
     let rightArr = [];
-    //复制原数组的备份以便对原数组做覆盖
+    //复制原数组的备份以对原数组做覆盖
     for(let i = 0; i <= middle - start; i++){
         leftArr[i] = arr[start + i];
     }
@@ -62,9 +62,7 @@ function merge(arr, start, middle, end){
         k++;
     }
 }
-let arr = utils.makeIntegerArray(11, 0, 10);
-console.log(arr)
+let arr = utils.makeIntegerArray(11, 0, 20000);
 console.time('run');
 mergeSort(arr, 0, arr.length - 1);
 console.timeEnd('run')
-console.log(arr)

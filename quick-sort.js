@@ -31,9 +31,8 @@ var sortArray = function(nums) {
     quickSort(nums, 0, nums.length - 1);
     return nums;
 };
-let arr = utils.makeIntegerArray(2000, 0, 10);
+let arr = utils.makeIntegerArray(20000, 0, 10);
 console.time('run')
 
 sortArray(arr);
-console.log(arr)
 console.timeEnd('run')
