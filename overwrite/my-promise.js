@@ -15,10 +15,10 @@ class MyPromise {
             return;
         }
         this.status = STATUS.resolved;
-        this.promiseValue = res;
         let that = this;
         setTimeout(function () {
             const ret = typeof that.resolveCallback === 'function' ? that.resolveCallback(res) : res;
+            this.promiseValue = ret;
             that.finallyCallback()
             if (thenable(ret)) {
                 ret.then(that._nextresolve);
@@ -32,10 +32,10 @@ class MyPromise {
             return;
         }
         this.status = STATUS.rejected;
-        this.promiseValue = err;
         let that = this;
         setTimeout(function () {
             const ret = typeof that.rejectCallback === 'function' ? that.rejectCallback(err) : err;
+            this.promiseValue = ret;
             that.finallyCallback()
             if (thenable(ret)) {
                 ret.then(noop, that._nextReject)
@@ -226,7 +226,7 @@ let p3 = new MyPromise(function (resolve, reject) {
 
 console.log(mypromise)
 
-MyPromise.all([p1, p2, p3, 4, 5, MyPromise.reject('reject promise all')]).then(function (ret) {
+MyPromise.all([p1, p2, p3, 4, 5]).then(function (ret) {
     console.log('Promise all ret', ret)
 }, function (err) {
     console.log('error: ', err)
