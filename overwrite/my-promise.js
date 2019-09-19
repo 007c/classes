@@ -19,6 +19,7 @@ class MyPromise {
         let that = this;
         setTimeout(function () {
             const ret = typeof that.resolveCallback === 'function' ? that.resolveCallback(res) : res;
+            that.finallyCallback()
             if (thenable(ret)) {
                 ret.then(that._nextresolve);
             } else {
@@ -35,6 +36,7 @@ class MyPromise {
         let that = this;
         setTimeout(function () {
             const ret = typeof that.rejectCallback === 'function' ? that.rejectCallback(err) : err;
+            that.finallyCallback()
             if (thenable(ret)) {
                 ret.then(noop, that._nextReject)
             } else {
@@ -44,6 +46,7 @@ class MyPromise {
     };
     resolveCallback = noop;
     rejectCallback = noop;
+    finallyCallback = noop;
     _nextresolve = noop;
     _nextReject = noop;
     constructor(fn) {
@@ -67,6 +70,15 @@ class MyPromise {
                 reject(promiseValue)
             }
         });
+    }
+
+    finally(onFinally) {
+        this.finallyCallback = onFinally;
+        const that = this;
+        return new MyPromise(function (resolve, reject) {
+            that._nextReject = reject;
+            that._nextresolve = resolve;
+        })
     }
 
     catch(onReject) {
@@ -143,7 +155,7 @@ let mypromise = new MyPromise(function (resolve, reject) {
     setTimeout(function () {
         resolve(2);
     }, 2000)
-    //reject('hahaha')
+    reject('hahaha')
 })
 
 MyPromise.resolve(3).then(function (res) {
@@ -185,6 +197,8 @@ mypromise.then(function (res) {
     })
 }).then(function (res) {
     console.log('chain 4 resolved', res);
+}).finally(function() {
+    console.log('chain 5 finally');
 })
 
 
@@ -241,4 +255,6 @@ MyPromise.reject(2).catch(function (err) {
     return err;
 }).then(null, function (err) {
     console.log('catch chain ', err)
+}).finally(function() {
+    console.log('catch finally')
 })
