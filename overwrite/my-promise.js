@@ -59,12 +59,8 @@ class MyPromise {
         const { status, promiseValue } = this;
         const that = this;
         return new MyPromise(function (resolve, reject) {
-            that._nextresolve = function (promiseValue) {
-                resolve(promiseValue)
-            };
-            that._nextReject = function (promiseValue) {
-                reject(promiseValue)
-            };
+            that._nextresolve = resolve;
+            that._nextReject = reject;
             if (status === STATUS.resolved) {
                 resolve(promiseValue)
             } else if (status === STATUS.rejected) {
@@ -79,6 +75,10 @@ class MyPromise {
         }
 
         this.rejectCallback = onReject;
+        const that = this;
+        return new Promise(function (resolve, reject) {
+            that._nextReject = reject;
+        })
     }
 
     static resolve(res) {
@@ -236,6 +236,9 @@ MyPromise.race([p5, p4, 'race string']).then(function (res) {
     console.log('race result', res);
 })
 
-MyPromise.reject(2).catch(function(err) {
-    console.log('catch reject err', err)
+MyPromise.reject(2).catch(function (err) {
+    console.log('catch reject err', err);
+    return err;
+}).then(null, function (err) {
+    console.log('catch chain ', err)
 })
