@@ -52,7 +52,7 @@ class MyPromise {
     then(onresolve, onReject) {
         this.resolveCallback = onresolve;
         this.rejectCallback = onReject;
-        const { status, promiseValue } = this.status;
+        const { status, promiseValue } = this;
         const that = this;
         return new MyPromise(function (resolve, reject) {
             that._nextresolve = function (promiseValue) {
@@ -87,7 +87,7 @@ let mypromise = new MyPromise(function (resolve, reject) {
     setTimeout(function () {
         resolve(2);
     }, 2000)
-    reject('hahaha')
+    //reject('hahaha')
 })
 
 MyPromise.resolve(3).then(function (res) {
