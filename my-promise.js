@@ -1,24 +1,24 @@
 const STATUS = {
     pending: "pending",
-    resloved: "resloved",
+    resolved: "resolved",
     rejected: "rejected",
 }
 
 function noop() { }
 class MyPromise {
-    resloveFn(res) {
+    resolveFn(res) {
         if (this.status !== STATUS.pending) {
             return;
         }
-        this.status = STATUS.resloved;
+        this.status = STATUS.resolved;
         this.promiseValue = res;
         let that = this;
         setTimeout(function () {
-            const ret = typeof that.resloveCallback === 'function' ? that.resloveCallback(res) : res;
+            const ret = typeof that.resolveCallback === 'function' ? that.resolveCallback(res) : res;
             if (typeof ret === "object" && ret.then) {
-                ret.then(that._nextReslove);
+                ret.then(that._nextresolve);
             } else {
-                that._nextReslove(ret)
+                that._nextresolve(ret)
             }
         }, 0)
     };
@@ -38,62 +38,60 @@ class MyPromise {
             }
         }, 0)
     };
-    resloveCallback = noop;
+    resolveCallback = noop;
     rejectCallback = noop;
-    _nextReslove = noop;
+    _nextresolve = noop;
     _nextReject = noop;
     constructor(fn) {
-        const { resloveFn, rejectFn } = this;
+        const { resolveFn, rejectFn } = this;
         this.status = STATUS.pending;
         this.promiseValue = undefined;
-        fn(resloveFn.bind(this), rejectFn.bind(this));
+        fn(resolveFn.bind(this), rejectFn.bind(this));
     }
 
-    then(onReslove, onReject) {
-        this.resloveCallback = onReslove;
+    then(onresolve, onReject) {
+        this.resolveCallback = onresolve;
         this.rejectCallback = onReject;
         const { status, promiseValue } = this.status;
         const that = this;
-        return new MyPromise(function (reslove, reject) {
-            that._nextReslove = function (promiseValue) {
-                reslove(promiseValue)
+        return new MyPromise(function (resolve, reject) {
+            that._nextresolve = function (promiseValue) {
+                resolve(promiseValue)
             };
             that._nextReject = function (promiseValue) {
                 reject(promiseValue)
             };
-            if (status === STATUS.resloved) {
-                reslove(promiseValue)
+            if (status === STATUS.resolved) {
+                resolve(promiseValue)
             } else if (status === STATUS.rejected) {
                 reject(promiseValue)
             }
         });
     }
 
-    static reslove(res) {
-        return new MyPromise(function (reslove, reject) {
-            reslove(res);
+    static resolve(res) {
+        return new MyPromise(function (resolve, reject) {
+            resolve(res);
         });
-
-
     }
 
     static reject(err) {
-        return new MyPromise(function (reslove, reject) {
+        return new MyPromise(function (resolve, reject) {
             reject(err);
         });
     }
 }
 
-let mypromise = new MyPromise(function (reslove, reject) {
+let mypromise = new MyPromise(function (resolve, reject) {
     console.log('init promise')
     setTimeout(function () {
-        reslove(2);
+        resolve(2);
     }, 2000)
     reject('hahaha')
 })
 
-MyPromise.reslove(3).then(function (res) {
-    console.log('directly resloved value ', res);
+MyPromise.resolve(3).then(function (res) {
+    console.log('directly resolved value ', res);
 })
 
 MyPromise.reject('Reject HAHAHA').then(noop, function (res) {
@@ -107,28 +105,28 @@ mypromise.then(function (res) {
     console.log(err);
     return err;
 }).then(function (res) {
-    console.log('chain 1 resloved ', res)
+    console.log('chain 1 resolved ', res)
     return res
 }, function (err) {
     console.log('chain 1 rejected ', err)
     return err
 }).then(function (res) {
-    console.log('chain 2 resloved ', res)
+    console.log('chain 2 resolved ', res)
     return res
 }, function (err) {
     console.log('chain 2 rejected ', err)
     return err
 }).then(function (res) {
-    console.log('chain 3 resloved', res)
-    return new MyPromise(function (reslove, reject) {
+    console.log('chain 3 resolved', res)
+    return new MyPromise(function (resolve, reject) {
         console.log('another promise')
         setTimeout(function () {
-            reslove(15);
-            console.log('wait reslove');
+            resolve(15);
+            console.log('wait resolve');
         }, 2000)
     })
 }).then(function (res) {
-    console.log('chain 4 resloved', res);
+    console.log('chain 4 resolved', res);
 })
 
 console.log(mypromise)
