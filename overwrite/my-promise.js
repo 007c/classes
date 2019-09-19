@@ -73,6 +73,14 @@ class MyPromise {
         });
     }
 
+    catch(onReject) {
+        if (this.rejectCallback !== noop) {
+            return;
+        }
+
+        this.rejectCallback = onReject;
+    }
+
     static resolve(res) {
         return new MyPromise(function (resolve, reject) {
             resolve(res);
@@ -226,4 +234,8 @@ let p5 = new MyPromise(function (resolve, reject) {
 
 MyPromise.race([p5, p4, 'race string']).then(function (res) {
     console.log('race result', res);
+})
+
+MyPromise.reject(2).catch(function(err) {
+    console.log('catch reject err', err)
 })
