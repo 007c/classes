@@ -4,12 +4,13 @@ interface TreeNode {
     right?: TreeNode;
 }
 
+let index = 0;
 const buildTree = function (depth: number): TreeNode {
     if (depth <= 0) {
         return null;
     }
     const node = {
-        value: Math.floor(depth * 10 + Math.random() * 10),
+        value: Math.floor((index++) * 10 + Math.random() * 10),
         left: buildTree(--depth),
         right: buildTree(--depth),
     }
@@ -17,7 +18,7 @@ const buildTree = function (depth: number): TreeNode {
     return node;
 }
 
-const tree = buildTree(4);
+const tree = buildTree(18);
 console.log(tree);
 
 const prevOrderTraversal = function (treeNode: TreeNode): number[] {
