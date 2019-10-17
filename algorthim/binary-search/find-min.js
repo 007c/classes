@@ -27,32 +27,44 @@ Input: [4,5,6,7,0,1,2]
 Output: 0
  */
 
- /**
- * @param {number[]} nums
- * @return {number}
- */
-var findMin = function(nums) {
+/**
+* @param {number[]} nums
+* @return {number}
+*/
+
+var inorderSearch = function (nums) {
+    let min = Infinity;
+    for (let i = 0; i < nums.length; i++) {
+        min = Math.min(nums[i], min);
+    }
+
+    return min;
+}
+
+var findMin = function (nums) {
     let startVal = nums[0];
-    if(startVal < nums[nums.length - 1]){
+    if (startVal < nums[nums.length - 1]) {
         return startVal;
     }
-    
+
     let start = 0, end = nums.length - 1;
-    while(start < end){
-        let middle = start + Math.floor((end - start)/2);
-        if(nums[middle-1] > nums[middle]){
+    while (start < end) {
+        let middle = start + Math.floor((end - start) / 2);
+        if (nums[middle - 1] > nums[middle]) {
             return nums[middle];
         }
-        if(nums[middle] > nums[middle+1]){
-            return nums[middle+1]
+        if (nums[middle] > nums[middle + 1]) {
+            return nums[middle + 1]
         }
-        if(nums[middle] > startVal){
+        if (nums[middle] > startVal) {
             start = middle + 1;
-        }else{
+        } else if (nums[middle] < nums[end]) {
             end = middle;
+        } else {
+            return inorderSearch(nums);
         }
     }
     return nums[start]
 };
 
-console.log(findMin([2, 3, 4, 5, 6, 19, 0, 1]))
+console.log(findMin([1, 1, 1, 1, 1, 0, 1]))
