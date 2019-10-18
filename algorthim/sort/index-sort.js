@@ -1,4 +1,4 @@
-const utils = require('./utils');
+const utils = require('../../utils');
 
 const arr = utils.makeIntegerArray(10, 0, 20);
 
