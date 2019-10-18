@@ -1,8 +1,8 @@
 module.exports = {
-    makeIntegerArray(count, min, max){
+    makeIntegerArray(count, min, max) {
         let array = [];
 
-        for(let i = 0; i < count; i++){
+        for (let i = 0; i < count; i++) {
             let num = min + Math.round(Math.random() * (max - min));
             array.push(num)
         }
@@ -21,8 +21,26 @@ module.exports = {
                 cur = cur.next;
             }
         }
-    
+
         return head;
+    },
+    buildBinaryTree(arr) {
+        let start = 0, end = arr.length - 1, queue = [], root;
+        while (start <= end) {
+            let parent = queue.shift();
+            let node = new TreeNode(arr[start++]);
+            if (!parent) {
+                root = node;
+                queue.push(root);
+            } else {
+                parent.left = node;
+                parent.right = new TreeNode(arr[start++]);
+                queue.push(node);
+                queue.push(parent.right);
+            }
+        }
+
+        return root;
     }
 }
 
@@ -32,6 +50,14 @@ class LinkListNode {
     constructor(val) {
         this.val = val;
         this.next = null;
+    }
+}
+
+class TreeNode {
+    constructor(val) {
+        this.val = val;
+        this.left = null;
+        this.right = null
     }
 }
 
