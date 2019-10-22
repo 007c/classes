@@ -6,6 +6,7 @@ const list = buildLinkList([1, 2, 3, 4, 5]);
 
 //console.log(list);
 
+//循环反转
 function reverseLinklist(linklist) {
     let pre = null, cur = linklist;
     while (cur) {
@@ -17,7 +18,7 @@ function reverseLinklist(linklist) {
 
     return pre;
 }
-
+//递归反转
 function reverseLinklistRecurserly(linklist, pre) {
     if (!linklist) {
         return pre;

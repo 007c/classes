@@ -1,3 +1,4 @@
+//合并两个增序的链表为一个新的递增链表
 const utils = require('../../utils');
 
 const { buildLinkList, makeIntegerArray } = utils;
