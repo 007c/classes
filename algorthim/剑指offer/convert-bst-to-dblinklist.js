@@ -10,22 +10,21 @@ let tree = buildBinaryTree([10, 6, 14, 4, 8, 12, 16])
 
 function convertBSTToDBLinklist(tree) {
     //keep preNode reference
-    let preNodeWarp = { preNode: null };
+    let preNode = null;
     let head = null;
-    convert(tree, preNodeWarp);
-    function convert(tree, preNodeWarp) {
+    convert(tree);
+    function convert(tree) {
         if (!tree) {
             return;
         }
         const currentNode = tree;
-        let leftNode = tree.left
-        convert(leftNode, preNodeWarp);
-        currentNode.left = preNodeWarp.preNode;
-        if (preNodeWarp.preNode) {
-            preNodeWarp.preNode.right = currentNode;
+        convert(tree.left);
+        currentNode.left = preNode;
+        if (preNode) {
+            preNode.right = currentNode;
         }
-        preNodeWarp.preNode = currentNode;
-        convert(tree.right, preNodeWarp);
+        preNode = currentNode;
+        convert(tree.right);
         if (!head) {
             head = currentNode;
         }
@@ -33,11 +32,11 @@ function convertBSTToDBLinklist(tree) {
 
     return head
 }
-let warp = convertBSTToDBLinklist(tree)
-console.log(warp);
+let head = convertBSTToDBLinklist(tree)
+console.log(head);
 
 
-while (warp) {
-    console.log(warp.val);
-    warp = warp.right;
+while (head) {
+    console.log(head.val);
+    head = head.right;
 }
