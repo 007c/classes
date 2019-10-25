@@ -26,5 +26,6 @@ function getUglyNumbers(n) {
 
     return uglyNumbers;
 }
-
+console.log(getUglyNumbers(1))
 console.log(getUglyNumbers(100))
+console.log(getUglyNumbers(1500))
