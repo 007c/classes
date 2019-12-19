@@ -3,7 +3,7 @@
 const partition = require("./partition")
 const { makeIntegerArray } = require("../../utils");
 /**
- * O(n) 的解决办法， 借鉴快速排序的partation函数分离位置 k，但会改变原数组
+ * O(n * k) 的解决办法， 借鉴快速排序的partation函数分离位置 k，但会改变原数组
  * @param {*} numbers 
  * @param {*} k 
  */
@@ -34,5 +34,5 @@ let testSq = makeIntegerArray(10, 1, 15);
 
 console.log(testSq);
 
-console.log(findKLessNumbers(testSq, 1));
+console.log(findKLessNumbers(testSq, 5));
 

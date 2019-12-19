@@ -1,7 +1,7 @@
 // 统计一个数字在排序数组中出现的次数;
 
 /**
- * 找到一个数在排序数组中第一次出现的位置或者最后一次出现的位置
+ * 找到一个数在排序数组中第一次出现的位置
  * @param {number[]} numbers 
  * @param {number} target
  */
@@ -26,6 +26,9 @@ function getFirstIndex(numbers, target) {
     return -1;
 }
 
+/**
+ * 找到一个数在排序数组中最后一次出现的位置
+ */
 function getLastKindex(numbers, target) {
     let start = 0; end = numbers.length - 1;
     while (start <= end) {

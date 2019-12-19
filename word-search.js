@@ -28,51 +28,51 @@
  */
 
 
- //dfs solution
- /**
- * @param {character[][]} board
- * @param {string} word
- * @return {boolean}
- */
-var exist = function(board, word) {
+//dfs solution
+/**
+* @param {character[][]} board
+* @param {string} word
+* @return {boolean}
+*/
+var exist = function (board, word) {
     let row = board.length, col = board[0].length;
-    if(word.length > row * col) {
+    if (word.length > row * col) {
         return false;
     }
-    for(let i = 0; i < row; i++){
-        for(let j = 0; j < col; j++){
-            if(search(board, i, j, word, 0)){
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < col; j++) {
+            if (search(board, i, j, word, 0)) {
                 return true;
             }
         }
     }
-    
-    
-    
+
+
+
     function search(board, i, j, word, index, has) {
-                
-        if(i >= board.length || j >= board[0].length || i < 0 || j < 0) {
+
+        if (i >= board.length || j >= board[0].length || i < 0 || j < 0) {
             return false;
         }
 
-        
-        if(board[i][j] !== word[index]) {
+
+        if (board[i][j] !== word[index]) {
             return false;
         }
-        
-        if(index === word.length - 1) {
+
+        if (index === word.length - 1) {
             return true;
-        }   
-        
+        }
+
         let ch = board[i][j]
         board[i][j] = "*";
-            const dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
-            for(const [iadd, jadd] of dirs){
-                let row = i + iadd, col = j + jadd;
-                   if(search(board, row, col, word, index + 1)) {
-                       return true
-                   }
+        const dirs = [[0, -1], [0, 1], [1, 0], [-1, 0]];
+        for (const [iadd, jadd] of dirs) {
+            let row = i + iadd, col = j + jadd;
+            if (search(board, row, col, word, index + 1)) {
+                return true
             }
+        }
         board[i][j] = ch;
         return false;
     }
