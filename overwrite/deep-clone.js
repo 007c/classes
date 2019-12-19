@@ -7,13 +7,7 @@ function deepClone(target) {
         cloned = function () {
             return target.apply(this, arguments);
         }
-        const keys = Object.keys(target);
-        target.__cloned = cloned;
-        for (let key of keys) {
-            cloned[key] = deepClone(target[key]);
-        }
-
-        delete target.__cloned;
+        cloneAttribute(target, cloned);
 
     } else if (typeof target === "object") {
         if (Array.isArray(target)) {
@@ -21,23 +15,27 @@ function deepClone(target) {
         } else {
             cloned = {};
         }
-
-        const keys = Object.keys(target);
-        target.__cloned = cloned;
-        for (let key of keys) {
-            cloned[key] = deepClone(target[key]);
-        }
-        delete target.__cloned;
-    }else {
+        cloneAttribute(target, cloned);
+    } else {
         cloned = target;
     }
     return cloned;
 
 }
 
+function cloneAttribute(target, cloned) {
+    const keys = Object.keys(target);
+    target.__cloned = cloned;
+    for (let key of keys) {
+        cloned[key] = deepClone(target[key]);
+    }
+
+    delete target.__cloned;
+}
+
 var a = {
     value: 1,
-    b: function(value) {
+    b: function (value) {
         console.log(value);
     },
     isNumber: false,
