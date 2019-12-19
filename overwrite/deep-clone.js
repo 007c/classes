@@ -1,6 +1,6 @@
 function deepClone(target) {
     if (target && target.__cloned) {
-        return target.__cloned;
+        return Array.isArray(target.__cloned) ? [] : {};
     }
     let cloned;
     if (typeof target === "function") {
@@ -61,10 +61,26 @@ class Exapmles {
 
 const ex = new Exapmles();
 
+const map = new Map();
+map.set('field', 1);
+
+var clonedMap = deepClone(map);
+console.log('clonedMap: ', clonedMap);
+
+
+
 var clonedA = deepClone(a);
 console.log('clonedA: ', clonedA);
 
 var clonedEx = deepClone(ex);
 console.log('clonedEx: ', clonedEx, clonedEx.mutiply);
+
+var a = {c: 2};
+var b = {};
+a.b = b;
+b.a = a;
+
+var cloneda = deepClone(a);
+console.log('cloneda: ', cloneda);
 
 clonedA.b(6);
