@@ -51,15 +51,21 @@ function matrixSolution(n) {
     return res[1][0];
 }
 
-const MAX = 12000;
+const MAX = 100000;
 console.time('linear');
+let res
 for (let i = 0; i <= MAX; i++) {
-    fibo(MAX)
+    res = fibo(MAX)
 }
-console.timeEnd('linear');
+console.timeEnd('linear', res);
+console.log('res: ', res);
+
 
 console.time('Matrix');
+
 for (let i = 0; i <= MAX; i++) {
-    matrixSolution(i)
+    res = matrixSolution(i)
 }
 console.timeEnd('Matrix');
+console.log('res: ', res);
+
